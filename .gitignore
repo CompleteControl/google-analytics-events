@@ -1,0 +1,10 @@
+# Logs
+logs
+*.log
+
+# Windows shortcuts
+*.lnk
+/.idea
+
+# Node JS modules
+node_modules

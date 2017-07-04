@@ -1,0 +1,7 @@
+{
+  "name": "google-analytics-events",
+  "author": "Nigel Britton (Complete Control)",
+  "description": "The wrapper library sits along side Google Analytics or Google Tag Manager.",
+  "license": "MIT",
+  "version": "0.2.0"
+}
