@@ -3,5 +3,9 @@
   "author": "Nigel Britton (Complete Control)",
   "description": "The wrapper library sits along side Google Analytics or Google Tag Manager.",
   "license": "MIT",
-  "version": "0.2.0"
+  "version": "0.2.1",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-uglify": "^1.0.1"
+  }
 }
