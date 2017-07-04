@@ -31,6 +31,10 @@ var GoogleAnalyticsEvents = {
         if (typeof dataLayer === 'undefined') { } else { handlers.dataLayer = true; }
         if (typeof ga === 'undefined') { } else { handlers.ga = true; }
 
+        if ( eventCategory == '' || eventAction == '' || eventLabel == '' ) {
+            if (window.console) { console.log('Google Analytics/Google Tag dataLayer: No category, action or label defined!'); }
+        }
+
         if (handlers.gaq == true) { _gaq.push(['_trackEvent', eventCategory, eventAction, eventLabel, eventValue]); }
         else if (handlers.dataLayer == true) { dataLayer.push({ 'event': 'GAevent', 'eventCategory': eventCategory, 'eventAction': eventAction, 'eventLabel': eventLabel, 'eventValue': eventValue }); }
         else if (handlers.ga == true) {
@@ -60,13 +64,13 @@ var GoogleAnalyticsEvents = {
                 label: "",
                 value: 0
             };
-            // check for any overrides
-            if (eventParams) {
-                if (eventParams.hasOwnProperty('category')) { gameEvent['category'] = eventParams['category']; }
-                if (eventParams.hasOwnProperty('action')) { gameEvent['action'] = eventParams['action']; }
-                if (eventParams.hasOwnProperty('label')) { gameEvent['label'] = eventParams['label']; }
-                if (eventParams.hasOwnProperty('value')) { gameEvent['value'] = (isNaN(parseFloat(eventParams['value'])) || 0); }
-            }
+        }
+        // check for any overrides
+        if (eventParams) {
+            if (eventParams.hasOwnProperty('category')) { gameEvent['category'] = eventParams['category']; }
+            if (eventParams.hasOwnProperty('action')) { gameEvent['action'] = eventParams['action']; }
+            if (eventParams.hasOwnProperty('label')) { gameEvent['label'] = eventParams['label']; }
+            if (eventParams.hasOwnProperty('value')) { gameEvent['value'] = (!isNaN(parseFloat(eventParams['value'])) ? parseFloat(eventParams['value']) : 0); }
         }
         this.trackEvent(gameEvent.category, gameEvent.action, gameEvent.label, gameEvent.value);
     },
@@ -82,8 +86,8 @@ var GoogleAnalyticsEvents = {
             if (eventParams.hasOwnProperty('category')) { gameEvent['category'] = eventParams['category']; }
             if (eventParams.hasOwnProperty('action')) { gameEvent['action'] = eventParams['action']; }
             if (eventParams.hasOwnProperty('label')) { gameEvent['label'] = eventParams['label']; }
-            if (eventParams.hasOwnProperty('value')) { gameEvent['value'] = (isNaN(parseFloat(eventParams['value'])) || 0); }
-        }
+            if (eventParams.hasOwnProperty('value')) { gameEvent['value'] = (!isNaN(parseFloat(eventParams['value'])) ? parseFloat(eventParams['value']) : 0); }
+            console.log(eventParams);    }
         this.trackEvent(gameEvent.category, gameEvent.action, gameEvent.label, gameEvent.value);
     }
 };
