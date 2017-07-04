@@ -2,14 +2,14 @@
  * ...
  * @author Nigel Britton
  * @company Complete Control
- * @version 0.2.0
+ * @version 0.2.1
  *
  * Usage: GoogleAnalyticsEvents.trackGameEvent( 'PREDEFINED_EVENT_ID', { action: 'PREDEFINED_ACTION_OVERRIDE' } );
  * Usage: GoogleAnalyticsEvents.trackGameCustomEvent( { category: 'CUSTOM_APPLICATION_NAME', action: 'CUSTOM_ACTION', label: 'CUSTOM_LABEL' } );
  */
 
 var GoogleAnalyticsEvents = {
-    version: 'v0.2.0',
+    version: 'v0.2.1',
     debug: false,
     gameEvents: [{
         id: 'PREDEFINED_EVENT',
