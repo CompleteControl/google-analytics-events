@@ -6,5 +6,8 @@ logs
 *.lnk
 /.idea
 
+# jsdoc output
+/out
+
 # Node JS modules
 node_modules

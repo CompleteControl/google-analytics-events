@@ -8,6 +8,10 @@
  * Usage: GoogleAnalyticsEvents.trackGameCustomEvent( { category: 'CUSTOM_APPLICATION_NAME', action: 'CUSTOM_ACTION', label: 'CUSTOM_LABEL' } );
  */
 
+
+/**
+ * @namespace
+ */
 var GoogleAnalyticsEvents = {
     version: 'v0.2.1',
     debug: false,
@@ -19,6 +23,13 @@ var GoogleAnalyticsEvents = {
         value: 0
     }],
 
+    /**
+     * Sends tracking parameters to install supplier
+     * @param {string} eventCategory - Google Analytics event category field
+     * @param eventAction
+     * @param eventLabel
+     * @param eventValue
+     */
     trackEvent: function (eventCategory, eventAction, eventLabel, eventValue) {
         var handlers = {
             gaq: false,
@@ -32,7 +43,7 @@ var GoogleAnalyticsEvents = {
         if (typeof ga === 'undefined') { } else { handlers.ga = true; }
 
         if ( eventCategory == '' || eventAction == '' || eventLabel == '' ) {
-            if (window.console) { console.log('Google Analytics/Google Tag dataLayer: No category, action or label defined!'); }
+            if (window.console && GoogleAnalyticsEvents.debug === true) { console.log('Google Analytics/Google Tag dataLayer: No category, action or label defined!'); }
         }
 
         if (handlers.gaq == true) { _gaq.push(['_trackEvent', eventCategory, eventAction, eventLabel, eventValue]); }
@@ -40,10 +51,15 @@ var GoogleAnalyticsEvents = {
         else if (handlers.ga == true) {
             ga('send', 'event', eventCategory, eventAction, eventLabel, eventValue, { 'nonInteraction': 0 });
         }
-        else { if (window.console) { console.log('Google Analytics/Google Tag dataLayer: Not Found!'); } }
+        else { if (window.console && GoogleAnalyticsEvents.debug === true) { console.log('Google Analytics/Google Tag dataLayer: Not Found!'); } }
         GoogleAnalyticsEvents.handlers = handlers;
     },
 
+    /**
+     * Get a predefined game event
+     * @param {string} eventID - A predefined event id
+     * @returns {boolean|object}
+     */
     getEventById: function (eventID) {
         var gameEvent = false;
         for (var i = 0; i < this.gameEvents.length; i++) {
@@ -55,6 +71,11 @@ var GoogleAnalyticsEvents = {
         return gameEvent;
     },
 
+    /**
+     * Track a predefined event, with override parameters
+     * @param {string} eventID
+     * @param {object} eventParams
+     */
     trackGameEvent: function (eventID, eventParams) {
         var gameEvent = this.getEventById(eventID);
         if (false === gameEvent) {
@@ -75,6 +96,10 @@ var GoogleAnalyticsEvents = {
         this.trackEvent(gameEvent.category, gameEvent.action, gameEvent.label, gameEvent.value);
     },
 
+    /**
+     * Track a custom event, using custom parameters
+     * @param {object} eventParams
+     */
     trackGameCustomEvent: function (eventParams) {
         var gameEvent = {
             category: "",
@@ -87,7 +112,8 @@ var GoogleAnalyticsEvents = {
             if (eventParams.hasOwnProperty('action')) { gameEvent['action'] = eventParams['action']; }
             if (eventParams.hasOwnProperty('label')) { gameEvent['label'] = eventParams['label']; }
             if (eventParams.hasOwnProperty('value')) { gameEvent['value'] = (!isNaN(parseFloat(eventParams['value'])) ? parseFloat(eventParams['value']) : 0); }
-            console.log(eventParams);    }
+            if (window.console && GoogleAnalyticsEvents.debug === true) { console.log(eventParams); }
+        }
         this.trackEvent(gameEvent.category, gameEvent.action, gameEvent.label, gameEvent.value);
     }
 };
