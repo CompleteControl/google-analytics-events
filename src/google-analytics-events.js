@@ -13,7 +13,7 @@
  * @namespace
  */
 var GoogleAnalyticsEvents = {
-    version: 'v0.2.1',
+    version: 'v0.2.2',
     debug: false,
     gameEvents: [{
         id: 'PREDEFINED_EVENT',
@@ -33,11 +33,13 @@ var GoogleAnalyticsEvents = {
     trackEvent: function (eventCategory, eventAction, eventLabel, eventValue) {
         var handlers = {
             gaq: false,
+            gtag: false,
             dataLayer: false,
             ga: false
         };
 
         // Quit out if Google Analytics/DataLayer is not found
+        if (typeof gtag === 'function') { handlers.gtag = true; }
         if (typeof _gaq === 'undefined') { } else { handlers.gaq = true; }
         if (typeof dataLayer === 'undefined') { } else { handlers.dataLayer = true; }
         if (typeof ga === 'undefined') { } else { handlers.ga = true; }
@@ -47,9 +49,10 @@ var GoogleAnalyticsEvents = {
         }
 
         if (handlers.gaq == true) { _gaq.push(['_trackEvent', eventCategory, eventAction, eventLabel, eventValue]); }
-        else if (handlers.dataLayer == true) { dataLayer.push({ 'event': 'GAevent', 'eventCategory': eventCategory, 'eventAction': eventAction, 'eventLabel': eventLabel, 'eventValue': eventValue }); }
+        else if (handlers.gtag == true) { gtag('event', eventAction, { 'event_category': eventCategory, 'event_label': eventLabel, 'value': eventValue }); }
         else if (handlers.ga == true) {
-            ga('send', 'event', eventCategory, eventAction, eventLabel, eventValue, { 'nonInteraction': 0 });
+            ga('send', 'event', eventCategory, eventAction, eventLabel, eventValue, { 'nonInteraction': 0 }); }
+        else if (handlers.dataLayer == true) { dataLayer.push({ 'event': 'GAevent', 'eventCategory': eventCategory, 'eventAction': eventAction, 'eventLabel': eventLabel, 'eventValue': eventValue });
         }
         else { if (window.console && GoogleAnalyticsEvents.debug === true) { console.log('Google Analytics/Google Tag dataLayer: Not Found!'); } }
         GoogleAnalyticsEvents.handlers = handlers;
