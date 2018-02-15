@@ -2,7 +2,7 @@
  * ...
  * @author Nigel Britton
  * @company Complete Control
- * @version 0.2.1
+ * @version 0.2.2
  *
  * Usage: GoogleAnalyticsEvents.trackGameEvent( 'PREDEFINED_EVENT_ID', { action: 'PREDEFINED_ACTION_OVERRIDE' } );
  * Usage: GoogleAnalyticsEvents.trackGameCustomEvent( { category: 'CUSTOM_APPLICATION_NAME', action: 'CUSTOM_ACTION', label: 'CUSTOM_LABEL' } );
@@ -91,9 +91,9 @@ var GoogleAnalyticsEvents = {
         }
         // check for any overrides
         if (eventParams) {
-            if (eventParams.hasOwnProperty('category')) { gameEvent['category'] = eventParams['category']; }
-            if (eventParams.hasOwnProperty('action')) { gameEvent['action'] = eventParams['action']; }
-            if (eventParams.hasOwnProperty('label')) { gameEvent['label'] = eventParams['label']; }
+            if (eventParams.hasOwnProperty('category')) { gameEvent['category'] = (eventParams['category'] ? eventParams['category'].toString() : ''); }
+            if (eventParams.hasOwnProperty('action')) { gameEvent['action'] = (eventParams['action'] ? eventParams['action'].toString() : ''); }
+            if (eventParams.hasOwnProperty('label')) { gameEvent['label'] = (eventParams['label'] ? eventParams['label'].toString() : ''); }
             if (eventParams.hasOwnProperty('value')) { gameEvent['value'] = (!isNaN(parseFloat(eventParams['value'])) ? parseFloat(eventParams['value']) : 0); }
         }
         this.trackEvent(gameEvent.category, gameEvent.action, gameEvent.label, gameEvent.value);
@@ -111,9 +111,9 @@ var GoogleAnalyticsEvents = {
             value: 0
         };
         if (eventParams) {
-            if (eventParams.hasOwnProperty('category')) { gameEvent['category'] = eventParams['category']; }
-            if (eventParams.hasOwnProperty('action')) { gameEvent['action'] = eventParams['action']; }
-            if (eventParams.hasOwnProperty('label')) { gameEvent['label'] = eventParams['label']; }
+            if (eventParams.hasOwnProperty('category')) { gameEvent['category'] = (eventParams['category'] ? eventParams['category'].toString() : ''); }
+            if (eventParams.hasOwnProperty('action')) { gameEvent['action'] = (eventParams['action'] ? eventParams['action'].toString() : ''); }
+            if (eventParams.hasOwnProperty('label')) { gameEvent['label'] = (eventParams['label'] ? eventParams['label'].toString() : ''); }
             if (eventParams.hasOwnProperty('value')) { gameEvent['value'] = (!isNaN(parseFloat(eventParams['value'])) ? parseFloat(eventParams['value']) : 0); }
             if (window.console && GoogleAnalyticsEvents.debug === true) { console.log(eventParams); }
         }
